@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PaymentAPI.DataAccess;
 using PaymentAPI.Model;
 
@@ -21,10 +22,19 @@ public class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddLogging(builder =>
         {
-
             builder.AddConsole();
             builder.AddDebug();
         });
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Payment API",
+                Version = "v1",
+                Description = "API for handling payment operations"
+            });
+        });
+
         builder.Services.AddControllersWithViews();
         builder.Services.AddMvc();
         builder.Services.AddEndpointsApiExplorer();
@@ -36,7 +46,11 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment API v1");
+            });
+
         }
 
         app.UseHttpsRedirection();
