@@ -1,0 +1,35 @@
+﻿@model List<PaymentAPI.Model.Payment>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Payment List</h1>
+
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Card Full Name</th>
+        <th>Amount</th>
+        <th>Transaction Time</th>
+        <th>Update</th>
+        <th>Delete</th>
+        
+    </tr>
+    @{int count = 1; }
+    @foreach (var payment in Model)
+    {
+        <tr>
+            <td>@count</td>
+            <td>@payment.CardHolderFullName</td>
+            <td>@payment.Amount</td>
+            <td>@(((DateTime)payment.TransactionTime).ToString("dd-MMM-yyyy"))</td>
+            <td>
+                <a href="/Payments/Edit/@payment.PaymentId" class="btn btn-primary">Edit</a> |
+                <a href="/Payments/Delete/@payment.PaymentId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        count++;
+    }
+
+</table>
